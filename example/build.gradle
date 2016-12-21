@@ -45,6 +45,5 @@ dependencies {
     compile project(':shareutil')
     compile 'me.shaohui:bottomdialog:1.1.9'
     compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     testCompile 'junit:junit:4.12'
 }

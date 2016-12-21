@@ -5,16 +5,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-alpha2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.1"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
-}
-
-plugins {
-    id "com.jfrog.bintray" version "1.7"
 }
 
 allprojects {
@@ -25,4 +23,30 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    userName = 'Shaohui'
+    developer = [
+            id   : 'shaohui',
+            name : 'shaohui',
+            email: 'shaohui@gmail.com'
+    ]
+    license = [
+            id  : 'MIT',
+            name: 'The MIT License (MIT)',
+            url : 'http://opensource.org/licenses/MIT'
+    ]
+    groupName = 'com.heylotus.shareutils'
+    artifactName = 'shareutils'
+    artifactDescription = 'Share to social media!'
+    artifactLabels = ['Share', 'Weibo', 'Wechat', 'Facebook']
+    releaseVersionCode = 2
+    releaseVersionName = '1.3.5'
+
+    androidBuildToolsVersion = '25.0.0'
+    androidCompileSdkVersion = 24 // 25 源码还没出，设置为 25 会导致 IDE 看不到源码
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 22
+    androidSupportSdkVersion = '25.0.0'
 }
