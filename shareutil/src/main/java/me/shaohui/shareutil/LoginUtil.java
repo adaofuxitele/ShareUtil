@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+
 import me.shaohui.shareutil.login.LoginListener;
 import me.shaohui.shareutil.login.LoginPlatform;
+import me.shaohui.shareutil.login.instance.FaceBookLoginInstance;
 import me.shaohui.shareutil.login.instance.LoginInstance;
 import me.shaohui.shareutil.login.instance.QQLoginInstance;
 import me.shaohui.shareutil.login.instance.WeiboLoginInstance;
@@ -28,19 +30,19 @@ public class LoginUtil {
     static final int TYPE = 799;
 
     public static void login(Context context, @LoginPlatform.Platform int platform,
-            LoginListener listener) {
+                             LoginListener listener) {
         login(context, platform, listener, true);
     }
 
     public static void login(Context context, @LoginPlatform.Platform int platform,
-            LoginListener listener, boolean fetchUserInfo) {
+                             LoginListener listener, boolean fetchUserInfo) {
         mPlatform = platform;
         mLoginListener = listener;
         isFetchUserInfo = fetchUserInfo;
         if (context instanceof Application) {
             listener.doLoginFailure(new Exception("don't support the application context"));
         }
-        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+        context.startActivity(_ShareActivity.newInstance(context, TYPE, platform));
     }
 
     static void action(Activity activity) {
@@ -53,6 +55,9 @@ public class LoginUtil {
                 break;
             case LoginPlatform.WX:
                 mLoginInstance = new WxLoginInstance(activity, mLoginListener, isFetchUserInfo);
+                break;
+            case LoginPlatform.FACEBOOK:
+                mLoginInstance = new FaceBookLoginInstance();
                 break;
         }
         mLoginInstance.doLogin(activity, mLoginListener, isFetchUserInfo);

@@ -1,6 +1,7 @@
 package me.shaohui.shareutil.login;
 
 import android.support.annotation.IntDef;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +15,7 @@ import java.lang.annotation.Target;
 public class LoginPlatform {
 
     @Documented
-    @IntDef({QQ, WX, WEIBO})
+    @IntDef({QQ, WX, WEIBO, FACEBOOK})
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.PARAMETER)
     public @interface Platform {
@@ -26,4 +27,5 @@ public class LoginPlatform {
     public static final int WX = 2;
 
     public static final int WEIBO = 3;
+    public static final int FACEBOOK = 4;
 }

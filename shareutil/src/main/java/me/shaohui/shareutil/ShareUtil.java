@@ -6,17 +6,27 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.facebook.AccessToken;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
 import java.util.List;
+
+import me.shaohui.shareutil.login.LoginListener;
+import me.shaohui.shareutil.login.LoginPlatform;
+import me.shaohui.shareutil.login.LoginResult;
 import me.shaohui.shareutil.share.ShareImageObject;
 import me.shaohui.shareutil.share.ShareListener;
 import me.shaohui.shareutil.share.SharePlatform;
 import me.shaohui.shareutil.share.instance.DefaultShareInstance;
+import me.shaohui.shareutil.share.instance.FaceBookShareInstance;
 import me.shaohui.shareutil.share.instance.QQShareInstance;
 import me.shaohui.shareutil.share.instance.ShareInstance;
 import me.shaohui.shareutil.share.instance.WeiboShareInstance;
@@ -29,14 +39,15 @@ import me.shaohui.shareutil.share.instance.WxShareInstance;
 public class ShareUtil {
     /**
      * 测试case
-     *
+     * <p>
      * 1. 本地图片 vs 网络图片
      * 2. 图片大小限制
      * 3. 文字长度限制
      */
 
     public static final int TYPE = 798;
-
+    //DelayedTime
+    private static final int DELAYED_TIME = 500;
     public static ShareListener mShareListener;
 
     private static ShareInstance mShareInstance;
@@ -52,6 +63,7 @@ public class ShareUtil {
     private static String mTitle;
     private static String mSummary;
     private static String mTargetUrl;
+    private static Context mContext;
 
     static void action(Activity activity) {
         mShareInstance = getShareInstance(mPlatform, activity);
@@ -82,37 +94,37 @@ public class ShareUtil {
     }
 
     public static void shareText(Context context, @SharePlatform.Platform int platform, String text,
-            ShareListener listener) {
+                                 ShareListener listener) {
         mType = TYPE_TEXT;
         mText = text;
         mPlatform = platform;
         mShareListener = listener;
 
-        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+        context.startActivity(_ShareActivity.newInstance(context, TYPE, platform));
     }
 
     public static void shareImage(Context context, @SharePlatform.Platform final int platform,
-            final String urlOrPath, ShareListener listener) {
+                                  final String urlOrPath, ShareListener listener) {
         mType = TYPE_IMAGE;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(urlOrPath);
         mShareListener = listener;
 
-        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+        context.startActivity(_ShareActivity.newInstance(context, TYPE, platform));
     }
 
     public static void shareImage(Context context, @SharePlatform.Platform final int platform,
-            final Bitmap bitmap, ShareListener listener) {
+                                  final Bitmap bitmap, ShareListener listener) {
         mType = TYPE_IMAGE;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(bitmap);
         mShareListener = listener;
 
-        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+        context.startActivity(_ShareActivity.newInstance(context, TYPE, platform));
     }
 
     public static void shareMedia(Context context, @SharePlatform.Platform int platform,
-            String title, String summary, String targetUrl, Bitmap thumb, ShareListener listener) {
+                                  String title, String summary, String targetUrl, Bitmap thumb, ShareListener listener) {
         mType = TYPE_MEDIA;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(thumb);
@@ -121,12 +133,12 @@ public class ShareUtil {
         mTitle = title;
         mShareListener = listener;
 
-        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+        context.startActivity(_ShareActivity.newInstance(context, TYPE, platform));
     }
 
     public static void shareMedia(Context context, @SharePlatform.Platform int platform,
-            String title, String summary, String targetUrl, String thumbUrlOrPath,
-            ShareListener listener) {
+                                  String title, String summary, String targetUrl, String thumbUrlOrPath,
+                                  ShareListener listener) {
         mType = TYPE_MEDIA;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(thumbUrlOrPath);
@@ -134,8 +146,13 @@ public class ShareUtil {
         mTargetUrl = targetUrl;
         mTitle = title;
         mShareListener = listener;
+        mContext = context;
+        if (platform == SharePlatform.FACEBOOK && AccessToken.getCurrentAccessToken() == null) {
+            LoginUtil.login(context, LoginPlatform.FACEBOOK, new FaceBookLoginListener());
+            return;
+        }
 
-        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+        context.startActivity(_ShareActivity.newInstance(context, TYPE, platform));
     }
 
     public static void handleResult(Intent data) {
@@ -153,8 +170,16 @@ public class ShareUtil {
         }
     }
 
+    public static void handleResult(final int requestCode,
+                                    final int resultCode, final Intent data) {
+        if (mShareInstance instanceof FaceBookShareInstance) {
+            final FaceBookShareInstance fsInstance = (FaceBookShareInstance) mShareInstance;
+            fsInstance.handleResult(requestCode, resultCode, data);
+        }
+    }
+
     private static ShareInstance getShareInstance(@SharePlatform.Platform int platform,
-            Context context) {
+                                                  Context context) {
         switch (platform) {
             case SharePlatform.WX:
             case SharePlatform.WX_TIMELINE:
@@ -164,6 +189,8 @@ public class ShareUtil {
                 return new QQShareInstance(context, ShareManager.CONFIG.getQqId());
             case SharePlatform.WEIBO:
                 return new WeiboShareInstance(context, ShareManager.CONFIG.getWeiboId());
+            case SharePlatform.FACEBOOK:
+                return new FaceBookShareInstance();
             case SharePlatform.DEFAULT:
             default:
                 return new DefaultShareInstance();
@@ -218,4 +245,50 @@ public class ShareUtil {
         IWXAPI api = WXAPIFactory.createWXAPI(context, ShareManager.CONFIG.getWxId(), true);
         return api.isWXAppInstalled();
     }
+
+    public static boolean isFaceBookInstalled(@NonNull Context context) {
+        PackageManager pm = context.getPackageManager();
+        if (pm == null) {
+            return false;
+        }
+
+        List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
+        for (PackageInfo info : packageInfos) {
+            if (TextUtils.equals(info.packageName.toLowerCase(), "com.facebook.katana")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     */
+    private static class FaceBookLoginListener extends LoginListener {
+
+        @Override
+        public void loginSuccess(LoginResult result) {
+            if (mContext != null) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mContext.startActivity(_ShareActivity.newInstance(mContext, TYPE, mPlatform));
+                    }
+                }, DELAYED_TIME);
+
+            }
+        }
+
+        @Override
+        public void loginFailure(Exception e) {
+
+        }
+
+        @Override
+        public void loginCancel() {
+
+        }
+    }
+
+
 }

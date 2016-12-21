@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
 import me.shaohui.shareutil.ShareConfig;
 import me.shaohui.shareutil.ShareManager;
 import me.shaohui.shareutil.ShareUtil;
@@ -51,8 +52,8 @@ public class ShareActivity extends AppCompatActivity {
         // 初始化shareUtil
         ShareConfig config = ShareConfig.instance()
                 .qqId("XXXXXX")
-                .weiboId("XXXXXX")
+                .weiboId("389226187")
                 .wxId("xXXXXX");
-        ShareManager.init(config);
+        ShareManager.init(config, this);
     }
 }

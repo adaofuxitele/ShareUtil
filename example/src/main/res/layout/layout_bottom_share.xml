@@ -1,168 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:background="#CC000000"
-            android:layout_height="140dp"
-            >
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:background="#CC000000">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:text="分享到"
-                android:textSize="13sp"
-                android:layout_marginTop="23dp"
-                android:layout_centerHorizontal="true"
-                />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp"
+            android:text="分享到"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_height="80dp"
-                >
+            android:id="@+id/shareLin"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_above="@+id/mFaceBook">
 
             <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/mRlWechat"
-                    android:layout_weight="1"
-                    >
+                android:id="@+id/mRlWechat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
-                        android:id="@+id/share_wx"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/share_wechat"
-                        />
+                    android:id="@+id/share_wx"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/share_wechat" />
 
                 <TextView
-                        android:textSize="13sp"
-                        android:gravity="center"
-                        android:textColor="#CCFFFFFF"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="17dp"
-                        android:text="微信"
-                        />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="17dp"
+                    android:gravity="center"
+                    android:text="微信"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp" />
             </RelativeLayout>
 
             <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/mRlWeixinCircle"
-                    android:layout_weight="1"
-                    >
+                android:id="@+id/mRlWeixinCircle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
-                        android:id="@+id/share_wx_timeline"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/share_moment"
-                        />
+                    android:id="@+id/share_wx_timeline"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/share_moment" />
 
                 <TextView
-                        android:textSize="13sp"
-                        android:gravity="center"
-                        android:textColor="#CCFFFFFF"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="17dp"
-                        android:text="朋友圈"
-                        />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="17dp"
+                    android:gravity="center"
+                    android:text="朋友圈"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp" />
             </RelativeLayout>
 
             <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/mRlWeibo"
-                    android:layout_weight="1"
-                    >
+                android:id="@+id/mRlWeibo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
-                        android:id="@+id/share_weibo"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/share_weibo"
-                        />
+                    android:id="@+id/share_weibo"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/share_weibo" />
 
                 <TextView
-                        android:textSize="13sp"
-                        android:gravity="center"
-                        android:textColor="#CCFFFFFF"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="17dp"
-                        android:text="微博"
-                        />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="17dp"
+                    android:gravity="center"
+                    android:text="微博"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp" />
             </RelativeLayout>
 
             <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/mRlQQ"
-                    android:layout_weight="1"
-                    >
+                android:id="@+id/mRlQQ"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
-                        android:id="@+id/share_qq"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/share_qq"
-                        />
+                    android:id="@+id/share_qq"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/share_qq" />
 
                 <TextView
-                        android:textSize="13sp"
-                        android:gravity="center"
-                        android:textColor="#CCFFFFFF"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="17dp"
-                        android:text="QQ"
-                        />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="17dp"
+                    android:gravity="center"
+                    android:text="QQ"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp" />
             </RelativeLayout>
 
             <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/mRlQzone"
-                    android:layout_weight="1"
-                    >
+                android:id="@+id/mRlQzone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
-                        android:id="@+id/share_qzone"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/share_qzone"
-                        />
+                    android:id="@+id/share_qzone"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/share_qzone" />
 
                 <TextView
-                        android:textSize="13sp"
-                        android:gravity="center"
-                        android:textColor="#CCFFFFFF"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="17dp"
-                        android:text="QQ空间"
-                        />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="17dp"
+                    android:gravity="center"
+                    android:text="QQ空间"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp" />
             </RelativeLayout>
+
+
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/mFaceBook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/share_qq" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="FaceBook"
+                android:textColor="#CCFFFFFF"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
 import me.shaohui.shareutil.LoginUtil;
 import me.shaohui.shareutil.ShareConfig;
 import me.shaohui.shareutil.ShareManager;
@@ -24,11 +25,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         ShareConfig config = ShareConfig.instance()
                 .qqId("XXXXXX")
-                .weiboId("XXXXX")
+                .weiboId("389226187")
                 .wxId("XXXXX")
                 .weiboRedirectUrl("XXXXXX")
                 .wxSecret("XXXXXX");
-        ShareManager.init(config);
+        ShareManager.init(config, this);
 
         findViewById(R.id.login_qq).setOnClickListener(this);
         findViewById(R.id.login_weibo).setOnClickListener(this);

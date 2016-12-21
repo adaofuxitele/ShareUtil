@@ -1,11 +1,16 @@
 package me.shaohui.shareutil.share;
 
 import android.util.Log;
+
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.UiError;
+
 import me.shaohui.shareutil.ShareLog;
 import me.shaohui.shareutil.ShareUtil;
 
@@ -13,7 +18,7 @@ import me.shaohui.shareutil.ShareUtil;
  * Created by shaohui on 2016/11/18.
  */
 
-public abstract class ShareListener implements IUiListener, IWeiboHandler.Response {
+public abstract class ShareListener implements IUiListener, IWeiboHandler.Response, FacebookCallback<Sharer.Result> {
     @Override
     public void onComplete(Object o) {
         doShareSuccess();
@@ -56,6 +61,19 @@ public abstract class ShareListener implements IUiListener, IWeiboHandler.Respon
         ShareLog.e("share failed");
         ShareUtil.recycle();
         shareFailure(e);
+    }
+
+
+    @Override
+    public void onSuccess(Sharer.Result result) {
+        doShareSuccess();
+        Log.d("onSuccess", result.getPostId() + " ");
+
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+        doShareFailure(error);
     }
 
     public void doShareCancel() {
